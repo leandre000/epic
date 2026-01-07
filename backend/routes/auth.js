@@ -1,7 +1,11 @@
 const express = require('express');
-const { body, validationResult } = require('express-validator');
+const { body } = require('express-validator');
 const User = require('../models/User');
 const { protect } = require('../middleware/auth');
+const asyncHandler = require('../utils/asyncHandler');
+const handleValidation = require('../utils/validationHandler');
+const { successResponse, errorResponse } = require('../utils/responseHandler');
+const AppError = require('../utils/errorHandler');
 
 const router = express.Router();
 
@@ -13,155 +17,74 @@ router.post('/register', [
   body('lastName').trim().notEmpty().withMessage('Last name is required'),
   body('email').isEmail().withMessage('Please provide a valid email'),
   body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
-  body('role').optional().isIn(['job_seeker', 'employer']).withMessage('Invalid role')
-], async (req, res) => {
-  try {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({
-        success: false,
-        errors: errors.array()
-      });
-    }
+  body('role').optional().isIn(['job_seeker', 'employer']).withMessage('Invalid role'),
+  handleValidation
+], asyncHandler(async (req, res) => {
+  const { firstName, lastName, email, password, role } = req.body;
 
-    const { firstName, lastName, email, password, role } = req.body;
-
-    // Check if user already exists
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({
-        success: false,
-        message: 'User already exists with this email'
-      });
-    }
-
-    // Create user
-    const user = await User.create({
-      firstName,
-      lastName,
-      email,
-      password,
-      role: role || 'job_seeker'
-    });
-
-    // Generate token
-    const token = user.generateToken();
-
-    res.status(201).json({
-      success: true,
-      message: 'User registered successfully',
-      data: {
-        user: {
-          id: user._id,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          email: user.email,
-          role: user.role
-        },
-        token
-      }
-    });
-  } catch (error) {
-    console.error('Registration error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Server error during registration',
-      error: error.message
-    });
+  if (await User.findOne({ email })) {
+    throw new AppError('User already exists with this email', 400);
   }
-});
+
+  const user = await User.create({
+    firstName,
+    lastName,
+    email,
+    password,
+    role: role || 'job_seeker'
+  });
+
+  const token = user.generateToken();
+
+  return successResponse(res, {
+    user: {
+      id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      role: user.role
+    },
+    token
+  }, 'User registered successfully', 201);
+}));
 
 // @route   POST /api/auth/login
 // @desc    Login user
 // @access  Public
 router.post('/login', [
   body('email').isEmail().withMessage('Please provide a valid email'),
-  body('password').notEmpty().withMessage('Password is required')
-], async (req, res) => {
-  try {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({
-        success: false,
-        errors: errors.array()
-      });
-    }
+  body('password').notEmpty().withMessage('Password is required'),
+  handleValidation
+], asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
 
-    const { email, password } = req.body;
-
-    // Check if user exists and get password
-    const user = await User.findOne({ email }).select('+password');
-    if (!user) {
-      return res.status(401).json({
-        success: false,
-        message: 'Invalid credentials'
-      });
-    }
-
-    // Check if user is active
-    if (!user.isActive) {
-      return res.status(401).json({
-        success: false,
-        message: 'Account is inactive'
-      });
-    }
-
-    // Check password
-    const isMatch = await user.comparePassword(password);
-    if (!isMatch) {
-      return res.status(401).json({
-        success: false,
-        message: 'Invalid credentials'
-      });
-    }
-
-    // Generate token
-    const token = user.generateToken();
-
-    res.json({
-      success: true,
-      message: 'Login successful',
-      data: {
-        user: {
-          id: user._id,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          email: user.email,
-          role: user.role,
-          avatar: user.avatar
-        },
-        token
-      }
-    });
-  } catch (error) {
-    console.error('Login error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Server error during login',
-      error: error.message
-    });
+  const user = await User.findOne({ email }).select('+password');
+  if (!user || !user.isActive || !(await user.comparePassword(password))) {
+    throw new AppError('Invalid credentials', 401);
   }
-});
+
+  const token = user.generateToken();
+
+  return successResponse(res, {
+    user: {
+      id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      role: user.role,
+      avatar: user.avatar
+    },
+    token
+  }, 'Login successful');
+}));
 
 // @route   GET /api/auth/me
 // @desc    Get current user
 // @access  Private
-router.get('/me', protect, async (req, res) => {
-  try {
-    const user = await User.findById(req.user.id);
-    res.json({
-      success: true,
-      data: { user }
-    });
-  } catch (error) {
-    console.error('Get user error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Server error',
-      error: error.message
-    });
-  }
-});
+router.get('/me', protect, asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user.id);
+  return successResponse(res, { user });
+}));
 
 module.exports = router;
 

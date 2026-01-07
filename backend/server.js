@@ -1,8 +1,3 @@
-// Updated: 2026-01-07T06:21:40.025Z
-// Updated: 2026-01-07T06:21:39.268Z
-// Updated: 2026-01-07T06:21:38.266Z
-// Updated: 2026-01-07T06:21:35.185Z
-// Updated: 2026-01-07T06:21:33.883Z
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -60,22 +55,11 @@ app.get('/api/health', (req, res) => {
 });
 
 // Error handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(err.status || 500).json({
-    success: false,
-    message: err.message || 'Internal Server Error',
-    ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
-  });
-});
+const errorHandler = require('./middleware/errorHandler');
+const notFound = require('./middleware/notFound');
 
-// 404 handler
-app.use((req, res) => {
-  res.status(404).json({
-    success: false,
-    message: 'Route not found'
-  });
-});
+app.use(notFound);
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
