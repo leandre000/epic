@@ -92,3 +92,5 @@ companySchema.index({ slug: 1 });
 module.exports = mongoose.model('Company', companySchema);
 
 
+
+

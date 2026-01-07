@@ -5,7 +5,12 @@ interface SpinnerProps extends React.HTMLAttributes<HTMLDivElement> {
   size?: 'sm' | 'md' | 'lg';
 }
 
-const SpinnerIcon = ({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) => {
+interface SpinnerIconProps {
+  size?: 'sm' | 'md' | 'lg';
+  className?: string;
+}
+
+const SpinnerIcon = ({ size = 'md', className }: SpinnerIconProps) => {
   const sizes = {
     sm: 'h-4 w-4',
     md: 'h-6 w-6',
@@ -14,7 +19,7 @@ const SpinnerIcon = ({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) => {
 
   return (
     <svg
-      className={cn('animate-spin', sizes[size])}
+      className={cn('animate-spin', sizes[size], className)}
       fill="none"
       viewBox="0 0 24 24"
     >

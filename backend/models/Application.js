@@ -70,3 +70,5 @@ applicationSchema.index({ job: 1, status: 1 });
 module.exports = mongoose.model('Application', applicationSchema);
 
 
+
+

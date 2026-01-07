@@ -116,3 +116,5 @@ userSchema.methods.generateToken = function() {
 module.exports = mongoose.model('User', userSchema);
 
 
+
+

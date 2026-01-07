@@ -8,8 +8,8 @@ import { Layout } from '@/components/layout/Layout'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Dreamize - Your Career Platform',
-  description: 'Find your dream job or hire the best talent',
+  title: 'Epic Careers - Transform Your Career',
+  description: 'Empowering students with data-driven insights and personalized career guidance programs',
 }
 
 export default function RootLayout({
