@@ -1,0 +1,2 @@
+// Helper utility
+module.exports = {};
