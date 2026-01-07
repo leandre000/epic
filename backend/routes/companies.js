@@ -1,90 +1,52 @@
 const express = require('express');
-const { body, validationResult } = require('express-validator');
+const { body } = require('express-validator');
 const Company = require('../models/Company');
 const { protect, authorize } = require('../middleware/auth');
+const asyncHandler = require('../utils/asyncHandler');
+const handleValidation = require('../utils/validationHandler');
+const { successResponse, paginatedResponse } = require('../utils/responseHandler');
+const { executeQuery, buildFilter } = require('../utils/queryHelpers');
+const { checkResourceExists, authorizeAction } = require('../utils/authorization');
+const AppError = require('../utils/errorHandler');
 
 const router = express.Router();
 
 // @route   GET /api/companies
 // @desc    Get all companies
 // @access  Public
-router.get('/', async (req, res) => {
-  try {
-    const { page = 1, limit = 10, search, industry } = req.query;
-    const skip = (parseInt(page) - 1) * parseInt(limit);
+router.get('/', asyncHandler(async (req, res) => {
+  const filter = buildFilter(req.query, { isActive: true });
+  if (req.query.industry) filter.industry = req.query.industry;
 
-    const filter = { isActive: true };
-    if (search) {
-      filter.$text = { $search: search };
-    }
-    if (industry) {
-      filter.industry = industry;
-    }
+  const { data: companies, pagination } = await executeQuery(Company, filter, {
+    page: req.query.page || 1,
+    limit: req.query.limit || 10,
+    populate: [{ path: 'owner', select: 'firstName lastName email' }],
+    select: '-employees -jobs',
+    sort: { createdAt: -1 }
+  });
 
-    const companies = await Company.find(filter)
-      .populate('owner', 'firstName lastName email')
-      .select('-employees -jobs')
-      .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(parseInt(limit));
-
-    const total = await Company.countDocuments(filter);
-
-    res.json({
-      success: true,
-      data: {
-        companies,
-        pagination: {
-          page: parseInt(page),
-          limit: parseInt(limit),
-          total,
-          pages: Math.ceil(total / parseInt(limit))
-        }
-      }
-    });
-  } catch (error) {
-    console.error('Get companies error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Server error',
-      error: error.message
-    });
-  }
-});
+  return paginatedResponse(res, { companies }, pagination);
+}));
 
 // @route   GET /api/companies/:id
 // @desc    Get single company
 // @access  Public
-router.get('/:id', async (req, res) => {
-  try {
-    const company = await Company.findById(req.params.id)
-      .populate('owner', 'firstName lastName email')
-      .populate({
-        path: 'jobs',
-        match: { status: 'active' },
-        select: 'title location employmentType createdAt'
-      });
-
-    if (!company || !company.isActive) {
-      return res.status(404).json({
-        success: false,
-        message: 'Company not found'
-      });
-    }
-
-    res.json({
-      success: true,
-      data: { company }
+router.get('/:id', asyncHandler(async (req, res) => {
+  const company = await Company.findById(req.params.id)
+    .populate('owner', 'firstName lastName email')
+    .populate({
+      path: 'jobs',
+      match: { status: 'active' },
+      select: 'title location employmentType createdAt'
     });
-  } catch (error) {
-    console.error('Get company error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Server error',
-      error: error.message
-    });
+
+  if (!company || !company.isActive) {
+    throw new AppError('Company not found', 404);
   }
-});
+
+  return successResponse(res, { company });
+}));
 
 // @route   POST /api/companies
 // @desc    Create a new company
@@ -92,91 +54,40 @@ router.get('/:id', async (req, res) => {
 router.post('/', protect, authorize('employer', 'admin'), [
   body('name').trim().notEmpty().withMessage('Company name is required'),
   body('industry').notEmpty().withMessage('Industry is required'),
-  body('description').optional().isLength({ max: 2000 }).withMessage('Description too long')
-], async (req, res) => {
-  try {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({
-        success: false,
-        errors: errors.array()
-      });
-    }
-
-    // Check if company name already exists
-    const existingCompany = await Company.findOne({ name: req.body.name });
-    if (existingCompany) {
-      return res.status(400).json({
-        success: false,
-        message: 'Company with this name already exists'
-      });
-    }
-
-    const company = await Company.create({
-      ...req.body,
-      owner: req.user.id
-    });
-
-    const populatedCompany = await Company.findById(company._id)
-      .populate('owner', 'firstName lastName email');
-
-    res.status(201).json({
-      success: true,
-      message: 'Company created successfully',
-      data: { company: populatedCompany }
-    });
-  } catch (error) {
-    console.error('Create company error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Server error',
-      error: error.message
-    });
+  body('description').optional().isLength({ max: 2000 }).withMessage('Description too long'),
+  handleValidation
+], asyncHandler(async (req, res) => {
+  if (await Company.findOne({ name: req.body.name })) {
+    throw new AppError('Company with this name already exists', 400);
   }
-});
+
+  const company = await Company.create({
+    ...req.body,
+    owner: req.user.id
+  });
+
+  const populatedCompany = await Company.findById(company._id)
+    .populate('owner', 'firstName lastName email');
+
+  return successResponse(res, { company: populatedCompany }, 'Company created successfully', 201);
+}));
 
 // @route   PUT /api/companies/:id
 // @desc    Update a company
 // @access  Private (Owner/Admin)
-router.put('/:id', protect, authorize('employer', 'admin'), async (req, res) => {
-  try {
-    let company = await Company.findById(req.params.id);
+router.put('/:id', protect, authorize('employer', 'admin'), asyncHandler(async (req, res) => {
+  const company = await Company.findById(req.params.id);
+  checkResourceExists(company, 'Company');
+  authorizeAction(req, company, 'update');
 
-    if (!company) {
-      return res.status(404).json({
-        success: false,
-        message: 'Company not found'
-      });
-    }
+  const updatedCompany = await Company.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    { new: true, runValidators: true }
+  ).populate('owner', 'firstName lastName email');
 
-    // Check authorization
-    if (company.owner.toString() !== req.user.id && req.user.role !== 'admin') {
-      return res.status(403).json({
-        success: false,
-        message: 'Not authorized to update this company'
-      });
-    }
-
-    company = await Company.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true, runValidators: true }
-    ).populate('owner', 'firstName lastName email');
-
-    res.json({
-      success: true,
-      message: 'Company updated successfully',
-      data: { company }
-    });
-  } catch (error) {
-    console.error('Update company error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Server error',
-      error: error.message
-    });
-  }
-});
+  return successResponse(res, { company: updatedCompany }, 'Company updated successfully');
+}));
 
 module.exports = router;
 
