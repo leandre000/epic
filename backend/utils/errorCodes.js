@@ -1,0 +1,19 @@
+// Standard error codes
+const ERROR_CODES = {
+  VALIDATION_ERROR: 'VALIDATION_ERROR',
+  AUTHENTICATION_ERROR: 'AUTHENTICATION_ERROR',
+  AUTHORIZATION_ERROR: 'AUTHORIZATION_ERROR',
+  NOT_FOUND: 'NOT_FOUND',
+  CONFLICT: 'CONFLICT',
+  INTERNAL_ERROR: 'INTERNAL_ERROR',
+};
+
+const getErrorCode = (errorType) => {
+  return ERROR_CODES[errorType] || ERROR_CODES.INTERNAL_ERROR;
+};
+
+module.exports = {
+  ERROR_CODES,
+  getErrorCode,
+};
+
