@@ -2,7 +2,7 @@
  * Authorization helpers - DRY principle
  * Simplifies authorization checks
  */
-const { errorResponse } = require('./responseHandler');
+const AppError = require('./errorHandler');
 
 const checkOwnership = (resource, userId, adminOverride = true) => {
   return resource.owner?.toString() === userId || 
@@ -12,7 +12,7 @@ const checkOwnership = (resource, userId, adminOverride = true) => {
 
 const checkResourceExists = (resource, resourceName = 'Resource') => {
   if (!resource) {
-    throw new Error(`${resourceName} not found`);
+    throw new AppError(`${resourceName} not found`, 404);
   }
   return resource;
 };
@@ -22,7 +22,7 @@ const authorizeAction = (req, resource, action = 'access') => {
   const isAdmin = req.user.role === 'admin';
   
   if (!isOwner && !isAdmin) {
-    throw new Error(`Not authorized to ${action} this resource`);
+    throw new AppError(`Not authorized to ${action} this resource`, 403);
   }
 };
 
