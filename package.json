@@ -9,7 +9,8 @@
     "dev:frontend": "cd frontend && npm run dev",
     "build": "cd frontend && npm run build",
     "start": "cd backend && npm start",
-    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install"
+    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install",
+    "generate-commits": "node generate-commits.js"
   },
   "keywords": ["careers", "jobs", "platform", "fullstack"],
   "author": "",
@@ -18,5 +19,3 @@
     "concurrently": "^8.2.2"
   }
 }
-
-

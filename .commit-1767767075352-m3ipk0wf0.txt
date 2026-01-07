@@ -1,2 +1,0 @@
-Commit 17: 2026-01-07T06:24:35.352Z
-docs: add API endpoint documentation

@@ -1,10 +1,3 @@
-// Updated: 2026-01-07T06:21:42.346Z
-// Updated: 2026-01-07T06:21:40.830Z
-// Updated: 2026-01-07T06:21:38.713Z
-// Updated: 2026-01-07T06:21:37.208Z
-// Updated: 2026-01-07T06:21:35.963Z
-// Updated: 2026-01-07T06:21:35.681Z
-// Updated: 2026-01-07T06:21:33.648Z
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'

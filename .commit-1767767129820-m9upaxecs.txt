@@ -1,2 +1,0 @@
-Commit 120: 2026-01-07T06:25:29.821Z
-fix: resolve job search query issue
