@@ -1,0 +1,2 @@
+Commit 70: 2026-01-07T06:25:01.586Z
+refactor(auth): optimize API response format
