@@ -13,6 +13,7 @@ export default function CourseDetailPage() {
   const params = useParams();
   const [activeTab, setActiveTab] = useState('Overview');
   const [expandedFaq, setExpandedFaq] = useState<number | null>(1);
+  const [expandedCurriculum, setExpandedCurriculum] = useState<number | null>(0);
 
   const courseData = {
     title: 'The Ultimate Guide To Building User-Friendly Interfaces',
@@ -23,7 +24,7 @@ export default function CourseDetailPage() {
     level: 'All levels',
     lessons: '20 Lessons',
     quizzes: '3 Quizzes',
-    originalPrice: 59.0,
+    originalPrice: 50.0,
     currentPrice: 49.0,
     image: '/images/4773b12fa93e098fec80f8df4e5b2463c7af96dd.jpg',
   };
@@ -43,12 +44,35 @@ export default function CourseDetailPage() {
     },
   ];
 
-  const lessons = [
-    { title: 'Introduction to UI Design', duration: '12:30', preview: true },
-    { title: 'Understanding User Experience', duration: '10:05', preview: true },
-    { title: 'Design Principles', duration: '15:20', preview: true },
-    { title: 'Color Theory and Typography', duration: '8:45', preview: false },
-    { title: 'Creating Your First Interface', duration: '20:10', preview: false },
+  const curriculumModules = [
+    {
+      title: 'Lessons With Video Content',
+      lessons: 5,
+      duration: '45 Mins',
+      items: [
+        { title: 'Lessons with video content', duration: '12:30', preview: true, locked: false },
+        { title: 'Lessons with video content', duration: '10:05', preview: true, locked: false },
+        { title: 'Lessons with video content', duration: '2:25', preview: true, locked: true },
+      ],
+    },
+    {
+      title: 'Lessons With Video Content',
+      lessons: 5,
+      duration: '45 Mins',
+      items: [
+        { title: 'Lessons with video content', duration: '15:20', preview: true, locked: false },
+        { title: 'Lessons with video content', duration: '8:45', preview: true, locked: false },
+      ],
+    },
+    {
+      title: 'Lessons With Video Content',
+      lessons: 5,
+      duration: '45 Mins',
+      items: [
+        { title: 'Lessons with video content', duration: '20:10', preview: true, locked: false },
+        { title: 'Lessons with video content', duration: '12:15', preview: true, locked: false },
+      ],
+    },
   ];
 
   return (
@@ -160,42 +184,74 @@ export default function CourseDetailPage() {
                 The Ultimate Guide to Building User-Friendly Interfaces is a comprehensive course designed for anyone passionate about UI design—whether you&apos;re just starting out or looking to sharpen your skills.
               </p>
               <p className="text-gray-700 leading-relaxed mb-6">
-                This course will take you through the fundamentals of user-friendly design, covering everything from understanding user needs to creating polished interfaces. You&apos;ll learn through interactive lessons, real-world projects, and hands-on exercises.
+                This course will take you through the fundamentals of user-friendly design, covering everything from understanding user needs to creating polished interfaces. You&apos;ll learn through interactive lessons, real-world design projects, and hands-on exercises. We&apos;ll cover user-centered design principles, practical skills for creating apps, websites, or software interfaces, and you&apos;ll build a portfolio of work—all without needing advanced coding or design experience.
               </p>
               <p className="text-gray-700 leading-relaxed mb-6">
-                By the end of this course, you&apos;ll have built a portfolio of user-friendly interfaces and gained the skills needed to start your freelance career or land a job in UI design. No advanced coding or design experience required!
+                This course is designed to be accessible, affordable, and provide a premium learning experience. By the end, you&apos;ll have the skills needed to build a portfolio of user-friendly interfaces and start your freelance career or land a job in UI design.
+              </p>
+              <p className="text-gray-700 leading-relaxed mb-6">
+                We&apos;ve created an in-depth, beginner-friendly course that covers everything you need to know, plus resources and bonus content to help you succeed.
               </p>
             </div>
           )}
 
           {activeTab === 'Curriculum' && (
-            <div>
-              <div className="mb-6">
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">Lessons With Video Content</h3>
-                <div className="space-y-2">
-                  {lessons.map((lesson, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
-                    >
-                      <div className="flex items-center gap-3">
-                        <span className="text-gray-600 text-sm">{index + 1}.</span>
-                        <span className="text-gray-900">{lesson.title}</span>
-                        <span className="text-gray-500 text-sm">{lesson.duration}</span>
-                      </div>
-                      {lesson.preview ? (
-                        <Button size="sm" variant="outline" className="border-epic-dark text-epic-dark">
-                          Preview
-                        </Button>
-                      ) : (
-                        <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                        </svg>
-                      )}
+            <div className="space-y-4">
+              {curriculumModules.map((module, moduleIndex) => (
+                <div
+                  key={moduleIndex}
+                  className="border border-gray-200 rounded-lg overflow-hidden"
+                >
+                  <button
+                    onClick={() => setExpandedCurriculum(expandedCurriculum === moduleIndex ? null : moduleIndex)}
+                    className="w-full flex items-center justify-between p-4 text-left hover:bg-gray-50 transition-colors"
+                  >
+                    <div className="flex items-center gap-4">
+                      <span className="font-medium text-gray-900">{module.title}</span>
+                      <span className="text-sm text-gray-600">{module.lessons} Lessons {module.duration}</span>
                     </div>
-                  ))}
+                    <svg
+                      className={`w-5 h-5 text-gray-500 transition-transform ${
+                        expandedCurriculum === moduleIndex ? 'rotate-180' : ''
+                      }`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  {expandedCurriculum === moduleIndex && (
+                    <div className="border-t border-gray-200 bg-gray-50">
+                      {module.items.map((item, itemIndex) => (
+                        <div
+                          key={itemIndex}
+                          className="flex items-center justify-between p-4 border-b border-gray-200 last:border-b-0"
+                        >
+                          <div className="flex items-center gap-3">
+                            <span className="text-gray-900">{item.title}</span>
+                            <span className="text-gray-500 text-sm">{item.duration}</span>
+                            {!item.locked && (
+                              <svg className="w-5 h-5 text-epic-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                              </svg>
+                            )}
+                          </div>
+                          {item.preview ? (
+                            <Button size="sm" variant="outline" className="border-epic-dark text-epic-dark">
+                              Preview
+                            </Button>
+                          ) : item.locked ? (
+                            <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
+                          ) : null}
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
-              </div>
+              ))}
             </div>
           )}
 

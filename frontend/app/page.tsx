@@ -155,22 +155,24 @@ export default function HomePage() {
               className="relative order-1 lg:order-2"
             >
               <div className="relative w-full h-[400px] sm:h-[500px] lg:h-[600px]">
-                {/* Background circles */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="absolute w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 bg-epic-dark rounded-full opacity-20 blur-3xl"></div>
-                  <div className="absolute w-48 h-48 sm:w-64 sm:h-64 lg:w-80 lg:h-80 bg-epic-dark rounded-full opacity-30 blur-2xl"></div>
+                {/* Abstract circular lines background */}
+                <div className="absolute inset-0 overflow-hidden">
+                  <div className="absolute top-1/4 left-1/4 w-96 h-96 border-2 border-epic-light rounded-full opacity-50"></div>
+                  <div className="absolute top-1/3 right-1/4 w-80 h-80 border-2 border-epic-light rounded-full opacity-30"></div>
+                  <div className="absolute bottom-1/4 left-1/3 w-72 h-72 border-2 border-epic-light rounded-full opacity-40"></div>
                 </div>
-                
-                {/* Main green circle with person */}
-                <div className="relative w-full h-full flex items-center justify-center">
+
+                {/* Large curved green shape */}
+                <div className="absolute top-0 right-0 w-[80%] h-[70%] bg-epic-dark rounded-tl-[50%] rounded-bl-[30%] rounded-tr-[20%] overflow-hidden">
                   {!imagesLoaded ? (
-                    <Skeleton variant="circular" className="w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96" />
+                    <Skeleton variant="rectangular" className="w-full h-full" />
                   ) : (
-                    <div className="relative bg-epic-dark rounded-full w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 flex items-center justify-center overflow-hidden shadow-2xl">
+                    <div className="relative w-full h-full">
                       <img
                         src="/images/713778750076baca22525eed5075b8640f2fe45a.jpg"
                         alt="Career Success"
-                        className="w-full h-full object-cover"
+                        className="absolute inset-0 w-full h-full object-cover object-center"
+                        style={{ clipPath: 'ellipse(80% 70% at 50% 50%)' }}
                         onError={(e) => {
                           handleImageError('/images/713778750076baca22525eed5075b8640f2fe45a.jpg');
                           e.currentTarget.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop';
@@ -222,11 +224,12 @@ export default function HomePage() {
                   </div>
                 </motion.div>
 
+                {/* Tutors Card - positioned on the curved shape */}
                 <motion.div
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.9, duration: 0.5 }}
-                  className="absolute top-1/2 -right-2 sm:top-1/2 sm:-right-4 bg-white rounded-lg shadow-xl p-3 sm:p-4 z-10 border-2 border-epic-dark"
+                  className="absolute top-1/2 right-4 sm:top-1/2 sm:right-8 bg-white rounded-lg shadow-xl p-3 sm:p-4 z-20 border-2 border-epic-dark"
                 >
                   <div className="flex items-center gap-2">
                     <div className="w-10 h-10 rounded-full bg-epic-light flex items-center justify-center flex-shrink-0">
@@ -235,8 +238,8 @@ export default function HomePage() {
                       </svg>
                     </div>
                     <div>
+                      <div className="text-xs sm:text-sm text-gray-600 mb-1">Tutors</div>
                       <div className="text-2xl lg:text-3xl font-bold text-epic-dark">1000+</div>
-                      <div className="text-xs sm:text-sm text-gray-600">Tutors</div>
                     </div>
                   </div>
                 </motion.div>
