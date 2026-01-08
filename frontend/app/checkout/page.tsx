@@ -28,11 +28,13 @@ const offers = [
 ];
 
 export default function CheckoutPage() {
+  const [selectedCardType, setSelectedCardType] = useState<string>('');
   const [formData, setFormData] = useState({
     nameOnCard: '',
     cardNumber: '',
     expirationDate: '',
     cvc: '',
+    saveInfo: false,
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -49,35 +51,94 @@ export default function CheckoutPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Payment Form */}
             <div className="lg:col-span-2">
-              <h1 className="text-3xl md:text-4xl font-bold text-epic-dark mb-8">Course Payment</h1>
+              <div className="bg-white border-2 border-blue-500 rounded-lg p-8">
+                <h1 className="text-3xl md:text-4xl font-bold text-epic-dark mb-8">Course Payment</h1>
 
-              {/* Card Types */}
-              <div className="mb-6">
-                <p className="text-sm font-medium text-gray-700 mb-3">Card Type</p>
-                <div className="flex gap-4">
-                  <div className="flex items-center justify-center w-16 h-10 border-2 border-gray-300 rounded hover:border-epic-dark transition-colors cursor-pointer">
-                    <span className="text-xs font-semibold text-blue-600">VISA</span>
-                  </div>
-                  <div className="flex items-center justify-center w-16 h-10 border-2 border-gray-300 rounded hover:border-epic-dark transition-colors cursor-pointer">
-                    <span className="text-xs font-semibold text-red-600">MC</span>
-                  </div>
-                  <div className="flex items-center justify-center w-16 h-10 border-2 border-gray-300 rounded hover:border-epic-dark transition-colors cursor-pointer">
-                    <span className="text-xs font-semibold text-orange-600">MoMo</span>
+                {/* Card Types */}
+                <div className="mb-6">
+                  <p className="text-sm font-medium text-gray-700 mb-3">Cart Type</p>
+                  <div className="flex gap-4">
+                    <button
+                      onClick={() => setSelectedCardType('paypal')}
+                      className={`flex items-center justify-center w-20 h-12 border-2 rounded transition-colors ${
+                        selectedCardType === 'paypal'
+                          ? 'border-epic-dark bg-epic-light'
+                          : 'border-gray-300 hover:border-epic-dark'
+                      }`}
+                    >
+                      <img
+                        src="/images/0e31f22ac425ebdab5432c00af4e38cdac16199d.png"
+                        alt="PayPal"
+                        className="h-6 object-contain"
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none';
+                          e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                        }}
+                      />
+                      <span className="hidden text-xs font-semibold text-blue-600">PayPal</span>
+                    </button>
+                    <button
+                      onClick={() => setSelectedCardType('visa')}
+                      className={`flex items-center justify-center w-20 h-12 border-2 rounded transition-colors ${
+                        selectedCardType === 'visa'
+                          ? 'border-epic-dark bg-epic-light'
+                          : 'border-gray-300 hover:border-epic-dark'
+                      }`}
+                    >
+                      <img
+                        src="/images/008b55b354350959de9d71c666d0f2b6c3e74480.png"
+                        alt="VISA"
+                        className="h-6 object-contain"
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none';
+                          e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                        }}
+                      />
+                      <span className="hidden text-xs font-semibold text-blue-600">VISA</span>
+                    </button>
+                    <button
+                      onClick={() => setSelectedCardType('mastercard')}
+                      className={`flex items-center justify-center w-20 h-12 border-2 rounded transition-colors ${
+                        selectedCardType === 'mastercard'
+                          ? 'border-epic-dark bg-epic-light'
+                          : 'border-gray-300 hover:border-epic-dark'
+                      }`}
+                    >
+                      <span className="text-xs font-semibold text-red-600">MC</span>
+                    </button>
+                    <button
+                      onClick={() => setSelectedCardType('momo')}
+                      className={`flex items-center justify-center w-20 h-12 border-2 rounded transition-colors ${
+                        selectedCardType === 'momo'
+                          ? 'border-epic-dark bg-epic-light'
+                          : 'border-gray-300 hover:border-epic-dark'
+                      }`}
+                    >
+                      <img
+                        src="/images/c8a4649e9487cb4aa1c054932ffb6810e642c295.png"
+                        alt="MoMo"
+                        className="h-8 object-contain"
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none';
+                          e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                        }}
+                      />
+                      <span className="hidden text-xs font-semibold text-orange-600">MoMo</span>
+                    </button>
                   </div>
                 </div>
-              </div>
 
               {/* Payment Form */}
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Name On Card
+                    Name on Card
                   </label>
                   <Input
                     type="text"
                     value={formData.nameOnCard}
                     onChange={(e) => setFormData({ ...formData, nameOnCard: e.target.value })}
-                    placeholder="John Doe"
+                    placeholder="Enter name on Card"
                     required
                     className="w-full"
                   />
@@ -91,7 +152,7 @@ export default function CheckoutPage() {
                     type="text"
                     value={formData.cardNumber}
                     onChange={(e) => setFormData({ ...formData, cardNumber: e.target.value })}
-                    placeholder="1234 5678 9012 3456"
+                    placeholder="Enter Card Number"
                     maxLength={19}
                     required
                     className="w-full"
@@ -107,7 +168,7 @@ export default function CheckoutPage() {
                       type="text"
                       value={formData.expirationDate}
                       onChange={(e) => setFormData({ ...formData, expirationDate: e.target.value })}
-                      placeholder="12/25"
+                      placeholder="Enter Expiration Date"
                       maxLength={5}
                       required
                       className="w-full"
@@ -121,12 +182,25 @@ export default function CheckoutPage() {
                       type="text"
                       value={formData.cvc}
                       onChange={(e) => setFormData({ ...formData, cvc: e.target.value })}
-                      placeholder="123"
+                      placeholder="Enter CVC"
                       maxLength={4}
                       required
                       className="w-full"
                     />
                   </div>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    id="save-info"
+                    checked={formData.saveInfo}
+                    onChange={(e) => setFormData({ ...formData, saveInfo: e.target.checked })}
+                    className="w-4 h-4 text-epic-dark border-gray-300 rounded focus:ring-epic-dark"
+                  />
+                  <label htmlFor="save-info" className="text-sm text-gray-700">
+                    Save my information for faster checkout
+                  </label>
                 </div>
 
                 <Button
@@ -136,6 +210,7 @@ export default function CheckoutPage() {
                 >
                   Confirm Payment
                 </Button>
+              </div>
               </form>
             </div>
 

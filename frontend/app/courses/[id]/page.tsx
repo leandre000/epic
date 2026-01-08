@@ -26,7 +26,7 @@ export default function CourseDetailPage() {
     quizzes: '3 Quizzes',
     originalPrice: 50.0,
     currentPrice: 49.0,
-    image: '/images/4773b12fa93e098fec80f8df4e5b2463c7af96dd.jpg',
+    image: '/images/4f2c785f6065e5ff7905e1f7cd63097088a96c88.jpg',
   };
 
   const faqs = [
@@ -134,7 +134,7 @@ export default function CourseDetailPage() {
                   alt={courseData.title}
                   className="w-full h-full object-cover"
                   onError={(e) => {
-                    e.currentTarget.src = 'https://images.unsplash.com/photo-1522542550221-31fd19575a2d?w=800&h=600&fit=crop';
+                    e.currentTarget.src = '/images/4773b12fa93e098fec80f8df4e5b2463c7af96dd.jpg';
                   }}
                 />
               </div>
@@ -258,23 +258,42 @@ export default function CourseDetailPage() {
           {activeTab === 'Instructor' && (
             <div>
               <div className="flex flex-col md:flex-row gap-6 mb-8">
-                <div className="w-32 h-32 bg-epic-darker rounded-lg flex items-center justify-center flex-shrink-0">
-                  <span className="text-white text-4xl font-bold">DA</span>
+                <div className="w-32 h-32 bg-black rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden">
+                  <img
+                    src="/images/c8832c66f88b3f08206a09941b8c932d196e826e.png"
+                    alt="DreamizeAfrica Logo"
+                    className="w-full h-full object-contain p-2"
+                    onError={(e) => {
+                      e.currentTarget.src = '/images/32fa7e5b1cfc9d2e898449a5afb0115a403c2271.png';
+                    }}
+                  />
                 </div>
-                <div>
+                <div className="flex-1">
                   <h3 className="text-2xl font-bold text-gray-900 mb-2">{courseData.instructor}</h3>
-                  <p className="text-gray-700 mb-4">
+                  <p className="text-gray-700 mb-4 leading-relaxed">
                     {courseData.instructor} is a tech-learning platform that helps students learn programming and build real-world projects through personalized paths and hands-on mentorship.
                   </p>
                   <div className="flex gap-6 mb-4">
-                    <div>
+                    <div className="flex items-center gap-2">
+                      <svg className="w-5 h-5 text-epic-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                      </svg>
                       <span className="text-gray-600 text-sm">{courseData.students}</span>
                     </div>
-                    <div>
+                    <div className="flex items-center gap-2">
+                      <svg className="w-5 h-5 text-epic-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                      </svg>
                       <span className="text-gray-600 text-sm">{courseData.lessons}</span>
                     </div>
                   </div>
-                  <div>
+                  <p className="text-gray-700 mb-4 leading-relaxed">
+                    Don&apos;t just take our word for it—enroll and experience the transformation yourself.
+                  </p>
+                  <p className="text-gray-700 mb-4 leading-relaxed">
+                    The Ultimate Guide to Building User-Friendly Interfaces is a comprehensive course designed for anyone passionate about UI design—whether you&apos;re just starting out or looking to sharpen your skills.
+                  </p>
+                  <div className="mt-6">
                     <p className="text-sm font-medium text-gray-700 mb-2">Follow:</p>
                     <div className="flex gap-3">
                       {['Facebook', 'Pinterest', 'Twitter', 'YouTube', 'Instagram'].map((social) => (
@@ -328,7 +347,113 @@ export default function CourseDetailPage() {
 
           {activeTab === 'Reviews' && (
             <div>
-              <p className="text-gray-700">Reviews section coming soon...</p>
+              <div className="mb-8">
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">Comments</h2>
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="text-5xl font-bold text-gray-900">4.0</div>
+                  <div>
+                    <div className="flex items-center gap-1 mb-2">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <svg
+                          key={star}
+                          className={`w-6 h-6 ${star <= 4 ? 'text-yellow-400' : 'text-gray-300'}`}
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <p className="text-sm text-gray-600">based on 146,951 ratings</p>
+                  </div>
+                </div>
+
+                {/* Rating Breakdown */}
+                <div className="space-y-2 mb-8">
+                  {[5, 4, 3, 2, 1].map((rating) => {
+                    const percentages = { 5: 90, 4: 5, 3: 2, 2: 2, 1: 1 };
+                    return (
+                      <div key={rating} className="flex items-center gap-3">
+                        <div className="flex items-center gap-1 w-20">
+                          <span className="text-sm text-gray-700">{rating}</span>
+                          <svg className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                          </svg>
+                        </div>
+                        <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+                          <div
+                            className="h-full bg-epic-dark rounded-full"
+                            style={{ width: `${percentages[rating as keyof typeof percentages]}%` }}
+                          ></div>
+                        </div>
+                        <span className="text-sm text-gray-600 w-12 text-right">{percentages[rating as keyof typeof percentages]}%</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Individual Reviews */}
+              <div className="space-y-6 mb-8">
+                {[
+                  {
+                    name: 'Peter Uwimana',
+                    date: 'October 03, 2022',
+                    comment: 'EPIC gave my child tailored, data-driven career advice that was far beyond generic guidance. I highly recommend them to other parents.',
+                    avatar: '/images/713778750076baca22525eed5075b8640f2fe45a.jpg',
+                  },
+                  {
+                    name: 'Aimee Mukamana',
+                    date: 'October 03, 2022',
+                    comment: 'Thanks to EPIC, I discovered a passion for engineering I didn\'t know I had. Their guidance helped me find direction and motivation.',
+                    avatar: '/images/713778750076baca22525eed5075b8640f2fe45a.jpg',
+                  },
+                  {
+                    name: 'Claire Imanzi',
+                    date: 'October 03, 2022',
+                    comment: 'EPIC has been a game-changer for our school. Their data-backed approach has made a real difference in my students career planning.',
+                    avatar: '/images/713778750076baca22525eed5075b8640f2fe45a.jpg',
+                  },
+                ].map((review, index) => (
+                  <div key={index} className="flex gap-4 pb-6 border-b border-gray-200 last:border-b-0">
+                    <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
+                      <img
+                        src={review.avatar}
+                        alt={review.name}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.currentTarget.src = 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop';
+                        }}
+                      />
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="font-semibold text-gray-900">{review.name}</span>
+                        <span className="text-sm text-gray-500">{review.date}</span>
+                      </div>
+                      <p className="text-gray-700 mb-2">{review.comment}</p>
+                      <button className="text-sm text-epic-dark hover:underline">Reply</button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Pagination */}
+              <div className="flex items-center justify-center gap-2">
+                <button className="p-2 text-gray-600 hover:text-epic-dark">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+                <button className="px-4 py-2 bg-epic-dark text-white rounded">1</button>
+                <button className="px-4 py-2 text-gray-700 hover:text-epic-dark rounded">2</button>
+                <button className="px-4 py-2 text-gray-700 hover:text-epic-dark rounded">3</button>
+                <button className="p-2 text-gray-600 hover:text-epic-dark">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              </div>
             </div>
           )}
         </div>
