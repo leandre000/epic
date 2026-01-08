@@ -80,17 +80,20 @@ export default function Header() {
           </div>
 
           {/* User Profile */}
-          <div className="flex items-center space-x-2 md:space-x-4">
-            <div className="flex items-center space-x-1 md:space-x-2 cursor-pointer">
-              <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-epic-light flex items-center justify-center overflow-hidden">
+          <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2 cursor-pointer group relative">
+              <div className="w-10 h-10 rounded-full bg-epic-light flex items-center justify-center overflow-hidden border-2 border-gray-200 group-hover:border-epic-dark transition-colors">
                 <img
-                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop"
+                  src="/images/713778750076baca22525eed5075b8640f2fe45a.jpg"
                   alt="User"
                   className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.currentTarget.src = 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop';
+                  }}
                 />
               </div>
-              <span className="hidden xl:block text-sm font-medium text-gray-700">Lina</span>
-              <svg className="w-4 h-4 text-gray-500 hidden md:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <span className="hidden lg:block text-sm font-medium text-gray-700">Lina</span>
+              <svg className="w-4 h-4 text-gray-500 hidden lg:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
             </div>

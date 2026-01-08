@@ -22,19 +22,19 @@ const courses = [
     title: 'The Ultimate Guide to...',
     description: 'Master Figma and UI/UX design principles to create stunning interfaces.',
     rating: 4.9,
-    image: 'https://images.unsplash.com/photo-1522542550221-31fd19575a2d?w=400&h=300&fit=crop',
+    image: '/images/4773b12fa93e098fec80f8df4e5b2463c7af96dd.jpg',
   },
   {
     title: 'UI/UX Design and...',
     description: 'Learn to design beautiful apps and websites that users love.',
     rating: 4.8,
-    image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400&h=300&fit=crop',
+    image: '/images/851629b974b0e40589d8b2df651330a5e5c2b912.jpg',
   },
   {
     title: 'Building User Interface -...',
     description: 'Comprehensive guide to UI/UX principles and best practices.',
     rating: 4.7,
-    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop',
+    image: '/images/a37e1a9c36b45642079ab15a8f753e1d21258de7.jpg',
   },
 ];
 
@@ -136,9 +136,12 @@ export default function HomePage() {
                 <div className="relative w-full h-full flex items-center justify-center">
                   <div className="relative bg-epic-dark rounded-full w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 flex items-center justify-center overflow-hidden shadow-2xl">
                     <img
-                      src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop"
+                      src="/images/713778750076baca22525eed5075b8640f2fe45a.jpg"
                       alt="Career Success"
                       className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.currentTarget.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop';
+                      }}
                     />
                   </div>
                 </div>
@@ -326,38 +329,39 @@ export default function HomePage() {
             className="grid grid-cols-1 md:grid-cols-3 gap-8"
           >
             {courses.map((course, index) => (
-              <motion.div
-                key={index}
-                variants={itemVariants}
-                whileHover={{ y: -10 }}
-                className="bg-white rounded-lg shadow-md overflow-hidden"
-              >
-                <div className="relative h-48 overflow-hidden">
-                  <img
-                    src={course.image}
-                    alt={course.title}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">{course.title}</h3>
-                  <p className="text-gray-600 text-sm mb-4">{course.description}</p>
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center">
-                      <span className="text-yellow-400">★</span>
-                      <span className="ml-1 text-gray-700">{course.rating}</span>
+              <Link key={index} href={`/courses/${index + 1}`}>
+                <motion.div
+                  variants={itemVariants}
+                  whileHover={{ y: -10 }}
+                  className="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer"
+                >
+                  <div className="relative h-48 overflow-hidden">
+                    <img
+                      src={course.image}
+                      alt={course.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">{course.title}</h3>
+                    <p className="text-gray-600 text-sm mb-4">{course.description}</p>
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center">
+                        <span className="text-yellow-400">★</span>
+                        <span className="ml-1 text-gray-700">{course.rating}</span>
+                      </div>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button variant="outline" size="sm" className="flex-1">
+                        Learn More
+                      </Button>
+                      <Button size="sm" className="flex-1 bg-epic-dark hover:bg-epic-darker text-white">
+                        Explore
+                      </Button>
                     </div>
                   </div>
-                  <div className="flex gap-2">
-                    <Button variant="outline" size="sm" className="flex-1">
-                      Learn More
-                    </Button>
-                    <Button size="sm" className="flex-1 bg-epic-dark hover:bg-epic-darker text-white">
-                      Explore
-                    </Button>
-                  </div>
-                </div>
-              </motion.div>
+                </motion.div>
+              </Link>
             ))}
           </motion.div>
           <div className="text-center mt-8">
