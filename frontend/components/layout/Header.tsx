@@ -7,66 +7,150 @@ import { Input } from '@/components/ui/Input';
 
 export default function Header() {
   const [searchQuery, setSearchQuery] = useState('');
+  const [showExploreDropdown, setShowExploreDropdown] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center">
-            <span className="text-2xl font-bold text-epic-dark">epic careers</span>
+          <Link href="/" className="flex flex-col">
+            <span className="text-xl sm:text-2xl font-bold text-epic-dark">epic careers</span>
+            <span className="text-xs text-gray-500 hidden sm:block">Hunting for passion</span>
           </Link>
 
           {/* Search Bar */}
-          <div className="flex-1 max-w-md mx-8 hidden md:block">
-            <Input
-              type="text"
-              placeholder="Search to find more."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full"
-            />
+          <div className="flex-1 max-w-md mx-2 md:mx-4 hidden md:block">
+            <div className="relative">
+              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm">Q</span>
+              <Input
+                type="text"
+                placeholder="Want to learn?"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-8 text-sm"
+              />
+            </div>
           </div>
 
-          {/* Navigation Links */}
-          <div className="hidden lg:flex items-center space-x-6">
-            <Link href="/" className="text-gray-700 hover:text-epic-dark transition-colors">
+          {/* Desktop Navigation Links */}
+          <div className="hidden lg:flex items-center space-x-4 xl:space-x-6">
+            <div className="relative">
+              <button
+                onMouseEnter={() => setShowExploreDropdown(true)}
+                onMouseLeave={() => setShowExploreDropdown(false)}
+                className="text-gray-700 hover:text-epic-dark transition-colors flex items-center text-sm"
+              >
+                Explore
+                <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              {showExploreDropdown && (
+                <div
+                  className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50"
+                  onMouseEnter={() => setShowExploreDropdown(true)}
+                  onMouseLeave={() => setShowExploreDropdown(false)}
+                >
+                  <Link href="/jobs" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 text-sm">Jobs</Link>
+                  <Link href="/courses" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 text-sm">Courses</Link>
+                  <Link href="/companies" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 text-sm">Companies</Link>
+                </div>
+              )}
+            </div>
+            <Link href="/" className="text-gray-700 hover:text-epic-dark transition-colors text-sm">
               Home
             </Link>
-            <Link href="/jobs" className="text-gray-700 hover:text-epic-dark transition-colors">
-              Explore
-            </Link>
-            <Link href="/blog" className="text-gray-700 hover:text-epic-dark transition-colors">
+            <Link href="/blog" className="text-gray-700 hover:text-epic-dark transition-colors text-sm">
               Blog
             </Link>
-            <Link href="/about" className="text-gray-700 hover:text-epic-dark transition-colors">
-              About Us
+            <Link href="/about" className="text-gray-700 hover:text-epic-dark transition-colors text-sm">
+              About us
             </Link>
-            <Link href="/courses" className="text-gray-700 hover:text-epic-dark transition-colors">
+            <Link href="/courses" className="text-gray-700 hover:text-epic-dark transition-colors text-sm">
               Courses
             </Link>
-            <Link href="/contact" className="text-gray-700 hover:text-epic-dark transition-colors">
-              Contact Us
+            <Link href="/contact" className="text-gray-700 hover:text-epic-dark transition-colors text-sm">
+              Contact us
             </Link>
-            <Link href="/admin" className="text-gray-700 hover:text-epic-dark transition-colors">
-              Admin
+            <Link href="/faq" className="text-gray-700 hover:text-epic-dark transition-colors text-sm">
+              FAQ&apos;s
             </Link>
           </div>
 
-          {/* Profile/Auth */}
-          <div className="flex items-center space-x-4">
-            <Link href="/login">
-              <Button variant="ghost" size="sm">
-                Login
-              </Button>
-            </Link>
-            <Link href="/register">
-              <Button size="sm" className="bg-epic-dark hover:bg-epic-darker text-white">
-                Sign Up
-              </Button>
-            </Link>
+          {/* User Profile */}
+          <div className="flex items-center space-x-2 md:space-x-4">
+            <div className="flex items-center space-x-1 md:space-x-2 cursor-pointer">
+              <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-epic-light flex items-center justify-center overflow-hidden">
+                <img
+                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop"
+                  alt="User"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <span className="hidden xl:block text-sm font-medium text-gray-700">Lina</span>
+              <svg className="w-4 h-4 text-gray-500 hidden md:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="lg:hidden p-2 text-gray-700 hover:text-epic-dark"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {mobileMenuOpen ? (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                )}
+              </svg>
+            </button>
           </div>
         </div>
+
+        {/* Mobile Menu */}
+        {mobileMenuOpen && (
+          <div className="lg:hidden py-4 border-t border-gray-200">
+            <div className="mb-4">
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm">Q</span>
+                <Input
+                  type="text"
+                  placeholder="Want to learn?"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-8 text-sm"
+                />
+              </div>
+            </div>
+            <div className="flex flex-col space-y-2">
+              <Link href="/" className="text-gray-700 hover:text-epic-dark transition-colors py-2 text-sm">
+                Home
+              </Link>
+              <Link href="/jobs" className="text-gray-700 hover:text-epic-dark transition-colors py-2 text-sm">
+                Explore
+              </Link>
+              <Link href="/blog" className="text-gray-700 hover:text-epic-dark transition-colors py-2 text-sm">
+                Blog
+              </Link>
+              <Link href="/about" className="text-gray-700 hover:text-epic-dark transition-colors py-2 text-sm">
+                About us
+              </Link>
+              <Link href="/courses" className="text-gray-700 hover:text-epic-dark transition-colors py-2 text-sm">
+                Courses
+              </Link>
+              <Link href="/contact" className="text-gray-700 hover:text-epic-dark transition-colors py-2 text-sm">
+                Contact us
+              </Link>
+              <Link href="/faq" className="text-gray-700 hover:text-epic-dark transition-colors py-2 text-sm">
+                FAQ&apos;s
+              </Link>
+            </div>
+          </div>
+        )}
       </nav>
     </header>
   );

@@ -2,8 +2,6 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
 import { Button } from '@/components/ui/Button';
 
 const categories = [
@@ -91,24 +89,23 @@ const itemVariants = {
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-white">
-      <Header />
-
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-epic-light to-white py-20 overflow-hidden">
+      <section className="relative bg-gradient-to-br from-epic-light to-white py-12 md:py-20 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
+              className="order-2 lg:order-1"
             >
-              <h1 className="text-5xl lg:text-6xl font-bold text-epic-dark mb-6">
-                Transform Your Career With EPIC
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-epic-dark mb-6 leading-tight">
+                Transform Your <span className="text-epic-dark">Career</span> With EPIC
               </h1>
-              <p className="text-lg text-gray-600 mb-8">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.
+              <p className="text-base sm:text-lg text-gray-600 mb-8">
+                Welcome to EPIC Careers, where data meets ambition. We provide students with personalized, data-driven career guidance that helps them make informed decisions about their future.
               </p>
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap gap-4 mb-8">
                 <Link href="/register">
                   <Button size="lg" className="bg-epic-dark hover:bg-epic-darker text-white">
                     Get Started
@@ -120,69 +117,161 @@ export default function HomePage() {
                   </Button>
                 </Link>
               </div>
-              <div className="flex items-center gap-8 mt-12">
-                <div className="flex items-center gap-2">
-                  <span className="text-2xl">🤝</span>
-                  <span className="text-gray-700">5+ Collaborative</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-2xl">⚡</span>
-                  <span className="text-gray-700">Flexible System</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-2xl">🌐</span>
-                  <span className="text-gray-700">Online Platform</span>
-                </div>
-              </div>
             </motion.div>
 
             <motion.div
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative"
+              className="relative order-1 lg:order-2"
             >
-              <div className="relative w-full h-[500px]">
-                <div className="absolute inset-0 bg-epic-dark rounded-full opacity-20 blur-3xl"></div>
-                <div className="relative bg-epic-dark rounded-full w-full h-full flex items-center justify-center p-8">
-                  <div className="bg-white rounded-full w-64 h-64 flex items-center justify-center overflow-hidden">
+              <div className="relative w-full h-[400px] sm:h-[500px] lg:h-[600px]">
+                {/* Background circles */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="absolute w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 bg-epic-dark rounded-full opacity-20 blur-3xl"></div>
+                  <div className="absolute w-48 h-48 sm:w-64 sm:h-64 lg:w-80 lg:h-80 bg-epic-dark rounded-full opacity-30 blur-2xl"></div>
+                </div>
+                
+                {/* Main green circle with person */}
+                <div className="relative w-full h-full flex items-center justify-center">
+                  <div className="relative bg-epic-dark rounded-full w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 flex items-center justify-center overflow-hidden shadow-2xl">
                     <img
-                      src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop"
-                      alt="Success"
+                      src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop"
+                      alt="Career Success"
                       className="w-full h-full object-cover"
                     />
                   </div>
                 </div>
+
                 {/* Stats Cards */}
                 <motion.div
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.5, duration: 0.5 }}
-                  className="absolute top-10 right-10 bg-white rounded-lg shadow-lg p-4"
+                  className="absolute top-4 right-0 sm:top-10 sm:right-10 bg-white rounded-lg shadow-xl p-3 sm:p-4 z-10"
                 >
-                  <div className="text-3xl font-bold text-epic-dark">18K+</div>
-                  <div className="text-sm text-gray-600">Active Students</div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-epic-light flex items-center justify-center">
+                      <svg className="w-4 h-4 sm:w-5 sm:h-5 text-epic-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                      </svg>
+                    </div>
+                    <div>
+                      <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-epic-dark">1K+</div>
+                      <div className="text-xs sm:text-sm text-gray-600">Online Courses</div>
+                    </div>
+                  </div>
                 </motion.div>
+
                 <motion.div
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.7, duration: 0.5 }}
-                  className="absolute bottom-20 left-10 bg-white rounded-lg shadow-lg p-4"
+                  className="absolute bottom-16 left-0 sm:bottom-20 sm:left-10 bg-white rounded-lg shadow-xl p-3 sm:p-4 z-10"
                 >
-                  <div className="text-3xl font-bold text-epic-dark">8K+</div>
-                  <div className="text-sm text-gray-600">Online Courses</div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-epic-light flex items-center justify-center">
+                      <svg className="w-4 h-4 sm:w-5 sm:h-5 text-epic-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-epic-dark">1K+</div>
+                      <div className="text-xs sm:text-sm text-gray-600">Video Courses</div>
+                    </div>
+                  </div>
                 </motion.div>
+
                 <motion.div
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.9, duration: 0.5 }}
-                  className="absolute top-1/2 -right-4 bg-white rounded-lg shadow-lg p-4"
+                  className="absolute top-1/2 -right-2 sm:top-1/2 sm:-right-4 bg-white rounded-lg shadow-xl p-3 sm:p-4 z-10"
                 >
-                  <div className="text-3xl font-bold text-epic-dark">1000+</div>
-                  <div className="text-sm text-gray-600">Companies</div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-epic-light flex items-center justify-center">
+                      <svg className="w-4 h-4 sm:w-5 sm:h-5 text-epic-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-epic-dark">1000+</div>
+                      <div className="text-xs sm:text-sm text-gray-600">Tutors</div>
+                    </div>
+                  </div>
                 </motion.div>
               </div>
             </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Key Features Section */}
+      <section className="py-12 md:py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="flex flex-col items-center text-center"
+            >
+              <div className="w-16 h-16 rounded-full border-2 border-orange-500 flex items-center justify-center mb-4">
+                <svg className="w-8 h-8 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                </svg>
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900">Define your goals.</h3>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="flex flex-col items-center text-center"
+            >
+              <div className="w-16 h-16 rounded-full border-2 border-orange-500 flex items-center justify-center mb-4">
+                <svg className="w-8 h-8 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900">Explore Options.</h3>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="flex flex-col items-center text-center"
+            >
+              <div className="w-16 h-16 rounded-full border-2 border-orange-500 flex items-center justify-center mb-4">
+                <svg className="w-8 h-8 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900">Take Action.</h3>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Collaboration Section */}
+      <section className="py-12 md:py-16 bg-white border-t border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="text-lg sm:text-xl font-semibold text-gray-900">5+ Collaboration</div>
+            <div className="flex flex-wrap items-center justify-center gap-6 md:gap-8">
+              <div className="text-2xl sm:text-3xl font-bold text-yellow-600">DA</div>
+              <div className="flex flex-col items-center">
+                <div className="text-xs sm:text-sm font-semibold text-gray-700">GREENLANDFILM</div>
+                <div className="text-xs sm:text-sm text-gray-600">AND TELEVISION SCHOOL</div>
+              </div>
+              <div className="text-lg sm:text-xl font-semibold text-gray-800">agura</div>
+              <div className="text-sm sm:text-base text-gray-700">Intare Soundwave Initiative</div>
+            </div>
           </div>
         </div>
       </section>
@@ -356,7 +445,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      <Footer />
     </div>
   );
 }

@@ -6,8 +6,6 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
-import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
 import api from '@/lib/api';
 import { useAuthStore } from '@/store/authStore';
 import toast from 'react-hot-toast';
@@ -50,7 +48,6 @@ export default function LoginPage() {
     <div className="min-h-screen bg-gradient-to-br from-epic-light to-white" style={{
       backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(34, 197, 94, 0.03) 10px, rgba(34, 197, 94, 0.03) 20px)'
     }}>
-      <Header />
       
       <div className="flex items-center justify-center py-12 px-4">
         <motion.div
@@ -164,7 +161,6 @@ export default function LoginPage() {
         </motion.div>
       </div>
 
-      <Footer />
     </div>
   );
 }
