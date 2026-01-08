@@ -210,8 +210,8 @@ export default function CheckoutPage() {
                 >
                   Confirm Payment
                 </Button>
-              </div>
               </form>
+              </div>
             </div>
 
             {/* Offers Sidebar */}
