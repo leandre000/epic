@@ -4,8 +4,8 @@
   "description": "Backend API for Dreamize platform",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js",
+    "start": "node init && node server.js",
+    "dev": "node init && nodemon server.js",
     "test": "jest",
     "test:watch": "jest --watch",
     "seed": "node scripts/seed.js",

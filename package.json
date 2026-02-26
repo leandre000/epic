@@ -4,15 +4,20 @@
   "description": "Fullstack careers platform - epicCareers design implementation",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
-    "dev:backend": "cd backend && npm run dev",
-    "dev:frontend": "cd frontend && npm run dev",
-    "build": "cd frontend && npm run build",
-    "start": "cd backend && npm start",
+    "dev": "node init && concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "node init && cd backend && npm run dev",
+    "dev:frontend": "node init && cd frontend && npm run dev",
+    "build": "node init && cd frontend && npm run build",
+    "start": "node init && cd backend && npm start",
     "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install",
     "generate-commits": "node generate-commits.js"
   },
-  "keywords": ["careers", "jobs", "platform", "fullstack"],
+  "keywords": [
+    "careers",
+    "jobs",
+    "platform",
+    "fullstack"
+  ],
   "author": "",
   "license": "MIT",
   "devDependencies": {
